@@ -33,7 +33,7 @@ export function Column({ label, tasks, projects }: ColumnProps) {
           <TaskCard
             key={task.id}
             task={task}
-            projectName={projects.length > 1 ? getProjectName(task.projectId) : undefined}
+            projectName={getProjectName(task.projectId)}
           />
         ))}
       </div>
