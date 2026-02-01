@@ -1,11 +1,19 @@
+import { useState } from 'react'
 import { useBoardStore } from '@/stores/board.store'
 
 export function Header() {
-  const { data, activeProjectId, setActiveProject, isSaving } = useBoardStore()
+  const { data, activeProjectId, setActiveProject, isLoading, refresh, logout } = useBoardStore()
+  const [isRefreshing, setIsRefreshing] = useState(false)
 
   if (!data) return null
 
   const activeProject = data.projects.find((p) => p.id === activeProjectId)
+
+  const handleRefresh = async () => {
+    setIsRefreshing(true)
+    await refresh()
+    setIsRefreshing(false)
+  }
 
   return (
     <header
@@ -26,17 +34,31 @@ export function Header() {
             ))}
           </select>
         )}
-        {isSaving && (
-          <span className="text-xs" style={{ color: 'hsl(var(--muted-foreground))' }}>
-            Saving...
+        {activeProject?.description && (
+          <span className="text-sm" style={{ color: 'hsl(var(--muted-foreground))' }}>
+            {activeProject.description}
           </span>
         )}
       </div>
-      {activeProject?.description && (
-        <p className="text-sm" style={{ color: 'hsl(var(--muted-foreground))' }}>
-          {activeProject.description}
-        </p>
-      )}
+      <div className="flex items-center gap-2">
+        <button
+          onClick={handleRefresh}
+          disabled={isRefreshing || isLoading}
+          className="rounded-md border px-3 py-1.5 text-sm transition-colors hover:opacity-80 disabled:opacity-50"
+          style={{ borderColor: 'hsl(var(--border))' }}
+          title="Refresh board"
+        >
+          {isRefreshing ? '⏳' : '🔄'} Refresh
+        </button>
+        <button
+          onClick={logout}
+          className="rounded-md px-3 py-1.5 text-sm transition-colors hover:opacity-80"
+          style={{ color: 'hsl(var(--muted-foreground))' }}
+          title="Lock board"
+        >
+          🔒
+        </button>
+      </div>
     </header>
   )
 }

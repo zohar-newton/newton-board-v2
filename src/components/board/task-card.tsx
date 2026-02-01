@@ -15,35 +15,18 @@ const priorityLabels = {
 
 interface TaskCardProps {
   task: Task
-  onDelete: (id: string) => void
-  onDragStart: (e: React.DragEvent, task: Task) => void
 }
 
-export function TaskCard({ task, onDelete, onDragStart }: TaskCardProps) {
+export function TaskCard({ task }: TaskCardProps) {
   return (
     <div
-      draggable
-      onDragStart={(e) => onDragStart(e, task)}
       className={cn(
-        'group relative rounded-lg border border-l-4 p-3 shadow-sm transition-all',
-        'hover:shadow-md hover:-translate-y-0.5 cursor-grab active:cursor-grabbing',
+        'rounded-lg border border-l-4 p-3 shadow-sm',
         priorityColors[task.priority]
       )}
       style={{ backgroundColor: 'hsl(var(--card))' }}
     >
-      <div className="flex items-start justify-between gap-2">
-        <h4 className="text-sm font-medium leading-snug">{task.title}</h4>
-        <button
-          onClick={() => onDelete(task.id)}
-          className="shrink-0 rounded p-0.5 opacity-0 transition-opacity group-hover:opacity-100 hover:text-red-500"
-          style={{ color: 'hsl(var(--muted-foreground))' }}
-          aria-label="Delete task"
-        >
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <path d="M18 6L6 18M6 6l12 12" />
-          </svg>
-        </button>
-      </div>
+      <h4 className="text-sm font-medium leading-snug">{task.title}</h4>
       {task.description && (
         <p className="mt-1 text-xs line-clamp-2" style={{ color: 'hsl(var(--muted-foreground))' }}>
           {task.description}
