@@ -7,8 +7,6 @@ export function Header() {
 
   if (!data) return null
 
-  const activeProject = data.projects.find((p) => p.id === activeProjectId)
-
   const handleRefresh = async () => {
     setIsRefreshing(true)
     await refresh()
@@ -22,23 +20,17 @@ export function Header() {
     >
       <div className="flex items-center gap-3">
         <h1 className="text-xl font-bold">🍎 Newton Board</h1>
-        {data.projects.length > 1 && (
-          <select
-            value={activeProjectId ?? ''}
-            onChange={(e) => setActiveProject(e.target.value)}
-            className="rounded-md border px-2 py-1 text-sm"
-            style={{ backgroundColor: 'hsl(var(--background))', borderColor: 'hsl(var(--border))' }}
-          >
-            {data.projects.map((p) => (
-              <option key={p.id} value={p.id}>{p.name}</option>
-            ))}
-          </select>
-        )}
-        {activeProject?.description && (
-          <span className="text-sm" style={{ color: 'hsl(var(--muted-foreground))' }}>
-            {activeProject.description}
-          </span>
-        )}
+        <select
+          value={activeProjectId ?? 'all'}
+          onChange={(e) => setActiveProject(e.target.value)}
+          className="rounded-md border px-2 py-1 text-sm"
+          style={{ backgroundColor: 'hsl(var(--background))', borderColor: 'hsl(var(--border))' }}
+        >
+          <option value="all">All Projects</option>
+          {data.projects.map((p) => (
+            <option key={p.id} value={p.id}>{p.name}</option>
+          ))}
+        </select>
       </div>
       <div className="flex items-center gap-2">
         <button

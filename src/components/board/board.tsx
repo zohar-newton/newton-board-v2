@@ -7,7 +7,9 @@ export function Board() {
 
   if (!data) return null
 
-  const tasks = data.tasks.filter((t) => t.projectId === activeProjectId)
+  const tasks = activeProjectId === 'all'
+    ? data.tasks
+    : data.tasks.filter((t) => t.projectId === activeProjectId)
 
   return (
     <div className="flex gap-4 overflow-x-auto p-6">
@@ -17,6 +19,7 @@ export function Board() {
           id={col.id}
           label={col.label}
           tasks={tasks.filter((t) => t.status === col.id)}
+          projects={data.projects}
         />
       ))}
     </div>

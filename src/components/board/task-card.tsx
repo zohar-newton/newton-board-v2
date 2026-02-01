@@ -15,9 +15,10 @@ const priorityLabels = {
 
 interface TaskCardProps {
   task: Task
+  projectName?: string
 }
 
-export function TaskCard({ task }: TaskCardProps) {
+export function TaskCard({ task, projectName }: TaskCardProps) {
   return (
     <div
       className={cn(
@@ -32,7 +33,7 @@ export function TaskCard({ task }: TaskCardProps) {
           {task.description}
         </p>
       )}
-      <div className="mt-2">
+      <div className="mt-2 flex flex-wrap items-center gap-1.5">
         <span className={cn(
           'inline-flex items-center rounded-full px-1.5 py-0.5 text-[10px] font-medium',
           task.priority === 'high' && 'bg-red-100 text-red-700 dark:bg-red-950 dark:text-red-400',
@@ -41,6 +42,11 @@ export function TaskCard({ task }: TaskCardProps) {
         )}>
           {priorityLabels[task.priority]}
         </span>
+        {projectName && (
+          <span className="inline-flex items-center rounded-full bg-blue-100 px-1.5 py-0.5 text-[10px] font-medium text-blue-700 dark:bg-blue-950 dark:text-blue-400">
+            {projectName}
+          </span>
+        )}
       </div>
     </div>
   )

@@ -27,7 +27,7 @@ export const useBoardStore = create<BoardState>((set, get) => ({
       set({ isLoading: false, error: 'Wrong password' })
       return false
     }
-    const activeProjectId = data.projects.length > 0 ? data.projects[0].id : null
+    const activeProjectId = 'all'
     // Store password for refresh
     sessionStorage.setItem('bp', password)
     set({ data, activeProjectId, isLoading: false })

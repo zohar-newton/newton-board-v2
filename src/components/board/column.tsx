@@ -1,14 +1,18 @@
-import type { TaskStatus } from '@/types'
-import type { Task } from '@/types'
+import type { Task, TaskStatus, Project } from '@/types'
 import { TaskCard } from './task-card'
 
 interface ColumnProps {
   id: TaskStatus
   label: string
   tasks: Task[]
+  projects: Project[]
 }
 
-export function Column({ label, tasks }: ColumnProps) {
+export function Column({ label, tasks, projects }: ColumnProps) {
+  const getProjectName = (projectId: string) => {
+    return projects.find((p) => p.id === projectId)?.name ?? ''
+  }
+
   return (
     <div
       className="flex h-full w-72 shrink-0 flex-col rounded-xl p-3"
@@ -26,7 +30,11 @@ export function Column({ label, tasks }: ColumnProps) {
 
       <div className="flex flex-1 flex-col gap-2 overflow-y-auto">
         {tasks.sort((a, b) => a.order - b.order).map((task) => (
-          <TaskCard key={task.id} task={task} />
+          <TaskCard
+            key={task.id}
+            task={task}
+            projectName={projects.length > 1 ? getProjectName(task.projectId) : undefined}
+          />
         ))}
       </div>
     </div>
