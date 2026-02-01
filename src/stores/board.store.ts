@@ -28,21 +28,21 @@ export const useBoardStore = create<BoardState>((set, get) => ({
       return false
     }
     const activeProjectId = 'all'
-    // Store password for refresh
-    sessionStorage.setItem('bp', password)
+    // Store password for refresh + persistence
+    localStorage.setItem('bp', password)
     set({ data, activeProjectId, isLoading: false })
     return true
   },
 
   logout: () => {
-    sessionStorage.removeItem('bp')
+    localStorage.removeItem('bp')
     set({ data: null, activeProjectId: null })
   },
 
   setActiveProject: (id: string) => set({ activeProjectId: id }),
 
   refresh: async () => {
-    const password = sessionStorage.getItem('bp')
+    const password = localStorage.getItem('bp')
     if (!password) return
 
     set({ isLoading: true })
